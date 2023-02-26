@@ -1,7 +1,63 @@
 // Testing weather the file is linked correctly
 console.log(`'This is a test'`);
+$(document).ready(function(){
+	$(document).ready(function () {
+		// adding an event listener
+		$('#employee-form').on('submit', function(event){
+			event.preventDefault();
+	  
+			// Colecting data from the form
+			const firstName = $('#first-name-input').val();
+			const lastName = $('#last-name-input').val();
+			const idNumber = $('#id-input').val();
+			const jobTitle = $('#job-title-input').val();
+			const annualSalary = parseFloat($('#salary-input').val());
+	  
+			// Calculate monthly Salary
+			var monthlySalary = annualSalary/12;
+	  
+			// Append employee info to the table
+			$('#employee-list tbody').append(
+			  '<tr>' +
+				'<td>' + firstName + '</td>' +
+				'<td>' + lastName + '</td>' +
+				'<td>' + idNumber + '</td>' +
+				'<td>' + jobTitle + '</td>' +
+				'<td class="salary">' + monthlySalary.toFixed(2) + '</td>' +
+				'<td><button class="delete-btn">Delete</button></td>' +
+			  '</tr>'
+			);
+	  
+			// Clear the input fields
+			$('#employee-form').trigger('reset');
+	  
+			// Update the monthly cost and add delete button
+			updatemonthlyCost();
+			$('.delete-btn').click(function(){
+				$(this).closest('tr').remove();
+				updatemonthlyCost();
+			});
+		});
+	  
+		// Update function
+		function updatemonthlyCost() {
+			const totalMonthlyCost = 0;
+			$('.salary').each(function () {
+				totalMonthlyCost += parseFloat($(this).text());
+			});
+			$('#total-monthly-cost').text('Total Monthly cost: $' + totalMonthlyCost.toFixed(2));
+			if (totalMonthlyCost > 20000) {
+				$('#total-monthly-cost').addClass('red-background');
+			} else {
+				$('#total-monthly-cost').removeClass('red-background');
+			}
+		}
+	  });
 
 
+
+
+}) 
 // Create an application that records employee salaries
 // Adds salaries up to report monthly costs. 
 	/*'The sum of annual salary % 12 for each month'*/
